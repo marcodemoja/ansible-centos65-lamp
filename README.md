@@ -1,4 +1,4 @@
-ansible-lamp
+Ansible-lamp
 ============
 
-Ansible for the experience team
+Simple Ansible LAMP playbook
