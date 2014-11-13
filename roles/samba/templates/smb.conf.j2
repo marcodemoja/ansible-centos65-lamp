@@ -1,0 +1,18 @@
+[global]
+workgroup = WORKGROUP
+server string = Samba server %s
+security = share
+encrypt passwords = false
+browsable = yes
+wins support = no
+force group = users
+
+[www]
+path = /var/www/vhosts
+available = yes
+browsable = yes
+public = yes
+writable = yes
+guest ok = yes
+create mask = 0777
+directory mask = 0777
