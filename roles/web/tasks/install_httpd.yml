@@ -1,0 +1,28 @@
+---
+# These tasks install http and the php modules.
+
+- name: Install http and php etc
+  yum: name={{ item }} state=present
+  with_items:
+   - httpd
+   - php
+   - php-common
+   - php-mysql
+   - php-xml
+   - php-pecl-xdebug
+   - php-mcrypt
+   - php-cli
+
+- file: path=/var/www/vhosts mode=0775 owner=apache group=users state=directory
+
+- name: copy virtualhosts
+  template: src=vhosts.conf.j2 dest=/etc/httpd/conf.d/vhosts.conf
+
+- name: copy httpd.conf
+  template: src=httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
+
+- name: copy xdebug.ini
+  template: src=xdebug.ini.j2 dest=/etc/php.d/xdebug.ini
+
+- name: http service state
+  service: name=httpd state=restarted enabled=yes

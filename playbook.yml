@@ -1,0 +1,7 @@
+- hosts: experience
+  sudo: yes
+  roles:
+    - common
+    - web
+    - db
+    - samba

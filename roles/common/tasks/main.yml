@@ -1,0 +1,35 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Install Epel REPO
+  yum: name=epel-release state=present
+  tags: epel
+
+- name: Download Remi repo.
+  get_url: url=http://rpms.famillecollet.com/enterprise/remi-release-6.rpm dest=/tmp/
+
+- name: Install Remi repo.
+  command: rpm -Uvh --force /tmp/remi-release-6.rpm creates=/etc/yum.repos.d/remi.repo
+
+- name: Enable PHP 5.6 repo.
+  template: src=remi.repo.j2 dest=/etc/yum.repos.d/remi.repo
+
+# - name: Update yum
+#   command: yum update -y
+
+- name: Install Mercurial
+  yum: name=mercurial state=present
+  tags: hg
+
+- name: Install ntp 
+  yum: name=ntp state=present
+  tags: ntp
+
+- name: Configure ntp file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  tags: ntp
+  notify: restart ntp
+
+- name: Start the ntp service
+  service: name=ntpd state=started enabled=true
+  tags: ntp
